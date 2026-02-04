@@ -123,3 +123,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gradient-text {
+  background: linear-gradient(to top, oklch(0.556 0 0), #000000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

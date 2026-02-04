@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollSpy } from "@/components/ScrollSpy";
+import { ImageSlider } from "@/components/ImageSlider";
 import {
-  Github,
   Mail,
   ExternalLink,
   BookOpen,
@@ -27,28 +27,30 @@ import {
 } from "lucide-react";
 
 const profile = {
-  name: "Your Name",
-  title: "Web Developer",
-  background: "前職や学歴などの経歴を記載してください。",
+  name: "蟹餃子",
+  title: "kanigyoza",
+  background: "イラストレーターとしてキャリアをスタートし、デジタルコンテンツ制作の経験を積んできました。本業の傍ら、趣味として動画編集や音楽制作にも取り組み、映像・サウンド・ビジュアルを横断するマルチメディア制作のスキルを培っています。こうしたクリエイティブ領域での経験が、ユーザー視点に立ったUI/UXデザインや、直感的なプロダクト開発に活かされています。",
   motivation:
-    "エンジニアを目指したきっかけや理由を記載してください。どのような経験や出来事がきっかけでプログラミングに興味を持ったかなど。",
+    "きっかけはDiscord Botの開発でした。コミュニティ運営の中で「こんな機能があれば便利なのに」という声に応えるため、独学でBotを作成。Botが滞りなく稼働している様子を見た時の達成感、そして仲間たちが実際に使って喜んでくれる姿を見た時の嬉しさは、今でも鮮明に覚えています。この経験から、クリエイターや身近な人たちの課題を解決し、日々の活動をサポートできるツールやサービスを自分の手で作りたいという想いが芽生え、エンジニアの道を志すようになりました。",
   learning:
-    "どのように学習してきたかを記載してください。独学、スクール、書籍、オンライン学習など、具体的な学習方法や期間など。",
+    "会社の研修と独学でプログラミングの基礎を固めています。研修では掲示板アプリやWebアプリケーションの開発を通じて、フロントエンドからバックエンド、インフラまで一貫した開発スキルを習得。実際に動くプロダクトを作りながら学ぶ実践的なアプローチで、エラー解決力や設計思考を身につけています。",
   strengths: [
-    "強み・アピールポイント1",
-    "強み・アピールポイント2",
-    "強み・アピールポイント3",
+    "イラスト・動画・音楽制作で培ったクリエイティブな視点とUI/UXへのこだわり",
+    "独学から始めた自走力と、新しい技術を積極的に吸収する学習意欲",
+    "ユーザーの課題に寄り添い、本当に役立つプロダクトを追求する姿勢",
   ],
 };
 
 const futureGoals = {
   shortTerm: [
-    "学びたい技術や取得したい資格",
-    "取り組みたいプロジェクト",
+    "Linux・Docker等のインフラ基盤技術の習得",
+    "LPIC・AWS認定資格の取得",
+    "ネットワークやセキュリティの知識強化",
   ],
   longTerm: [
-    "目指すエンジニア像",
-    "キャリアビジョン",
+    "クリエイター同士が繋がり、作品を共有できるSNSの個人開発",
+    "インフラエンジニアとして安定性・信頼性の高いシステム構築に貢献",
+    "開発とインフラ両方の視点を持つエンジニアとして成長",
   ],
 };
 
@@ -65,6 +67,14 @@ const projects = [
       github: "https://github.com/your-username/study-support-app",
       demo: "https://study-support-app.com",
     },
+    // サンプルアカウント
+    demoAccounts: {
+      tenantId: "T000001",
+      accounts: [
+        { role: "Student", email: "student@example.com", password: "password123" },
+        { role: "Teacher", email: "teacher@example.com", password: "password123" },
+      ],
+    },
     // スクリーンショット（publicフォルダに画像を配置）
     images: ["/images/study-support-1.png", "/images/study-support-2.png"],
     features: [
@@ -78,14 +88,24 @@ const projects = [
     // 工夫した点・課題と解決策
     challenges: [
       {
-        problem: "マルチテナント設計の複雑さ",
+        problem: "セキュリティ対策の徹底",
         solution:
-          "テナントごとにデータを分離しつつ、共通のコードベースで管理できるよう設計。ミドルウェアでテナントを自動判別し、クエリスコープで確実にデータを分離。",
+          "Cloudflare WAFによる不正アクセス防御、CSRF/XSS対策の実装、APIのRate Limiting導入。Secrets Managerで機密情報を安全に管理し、HTTPS通信を徹底。",
       },
       {
-        problem: "AWS ECSへのデプロイ",
+        problem: "マルチテナント対応のDB設計",
         solution:
-          "マルチステージビルドでDockerイメージを最適化。Cloudflare Tunnelを使用してセキュアな公開を実現。デプロイスクリプトを自作して自動化。",
+          "テナントごとにデータを論理分離する設計を採用。クエリスコープで確実にデータを分離し、インデックス最適化でパフォーマンスを確保。",
+      },
+      {
+        problem: "インフラコストの最適化",
+        solution:
+          "ECS Fargateのスポットインスタンス活用、RDSのリザーブドインスタンス検討、CloudWatchでリソース使用状況を監視し、適切なスケーリング設定でコストを削減。",
+      },
+      {
+        problem: "キャッシュ設計によるパフォーマンス向上",
+        solution:
+          "Upstash Redisを導入し、頻繁にアクセスされるデータをキャッシュ。DBへのクエリ負荷を軽減し、レスポンス速度を改善。キャッシュの有効期限やインバリデーション戦略も適切に設計。",
       },
     ],
     // 学んだこと
@@ -136,6 +156,7 @@ const projects = [
         "Docker（マルチステージビルド）",
         "Nginx（リバースプロキシ）",
         "Vercel（Frontend）",
+        "Upstash（Redis）",
       ],
     },
     external: {
@@ -149,27 +170,28 @@ const projects = [
         "Rate Limiting",
       ],
     },
+    development: {
+      title: "Development",
+      techs: ["AI駆動開発", "Claude Code"],
+    },
   },
   {
     id: 2,
     title: "ex/only - 支出家計簿",
     description:
-      "シンプルで使いやすい家計簿モバイルアプリ。支出の記録、グラフでの可視化、多言語対応など、日常的な家計管理をサポートします。",
+      "支出管理に特化したシンプルな家計簿アプリ。収入や複雑な機能は一切省き、「出費を記録する」ことだけに集中。直感的な操作で日々の支出をサッと記録し、カテゴリ別のグラフで支出傾向を一目で把握できます。",
     icon: Smartphone,
     iconImage: "/ex-only-3.png",
-    links: {
-      github: "https://github.com/your-username/kakeibo-app",
-      appStore: "https://apps.apple.com/app/your-app",
-      playStore: "https://play.google.com/store/apps/details?id=your.app",
-    },
+    links: {},
+    comingSoon: true,
     images: ["/images/kakeibo-1.png", "/images/kakeibo-2.png"],
     features: [
-      "支出・収入の記録管理",
-      "カテゴリ別集計・グラフ表示",
-      "固定費の自動登録",
+      "支出記録に特化（収入管理は省略したシンプル設計）",
+      "ワンタップで素早く支出を記録",
+      "カテゴリ別の支出グラフで傾向を可視化",
+      "固定費の自動登録で毎月の入力を省力化",
       "多言語対応（i18n）",
-      "レシート読み取り（ML Kit）",
-      "iCloud同期対応",
+      "iCloud同期でデバイス間データ共有",
     ],
     challenges: [
       {
@@ -221,6 +243,17 @@ const projects = [
         "Expo Localization",
       ],
     },
+    development: {
+      title: "Development",
+      techs: ["AI駆動開発", "Claude Code"],
+    },
+    sampleImages: [
+      "/ex-only-sample-1.PNG",
+      "/ex-only-sample-2.PNG",
+      "/ex-only-sample-3.PNG",
+      "/ex-only-sample-4.PNG",
+      "/ex-only-sample-5.PNG",
+    ],
   },
 ];
 
@@ -254,7 +287,7 @@ const skills = {
     "Resend",
     "RevenueCat",
     "ML Kit",
-    "Figma",
+    "Affinity Designer 2",
   ],
 };
 
@@ -267,15 +300,21 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
         <div className="container mx-auto px-4 py-20 md:py-32">
           <div className="relative z-10 max-w-3xl">
-            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
-              {profile.name}
-            </h1>
-            <p className="mt-2 text-xl text-muted-foreground">
+            <p
+              className="text-xl ml-1 gradient-text"
+              style={{ letterSpacing: "0.15em" }}
+            >
               {profile.title}
             </p>
+            <h1
+              className="mt-1 text-4xl font-black md:text-6xl gradient-text"
+              style={{ letterSpacing: "0.05em" }}
+            >
+              {profile.name}
+            </h1>
             <p className="mt-6 text-lg text-muted-foreground md:text-xl">
-              フルスタック開発者として、モダンなWebアプリケーションとモバイルアプリの開発を行っています。
-              ユーザー体験を重視した、使いやすく保守性の高いプロダクト開発を目指しています。
+              AI駆動開発をメインスタイルとして、WebアプリケーションやモバイルアプリのUI設計から開発まで行っています。
+              AIと協働しながら、ユーザー体験を重視した使いやすいプロダクト開発を目指しています。
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button asChild>
@@ -485,21 +524,8 @@ export default function Home() {
                           {project.description}
                         </CardDescription>
                         {/* プロジェクトリンク */}
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {project.links.github && (
-                            <Button variant="outline" size="sm" asChild>
-                              <a
-                                href={project.links.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Github className="mr-2 h-4 w-4" />
-                                GitHub
-                                <ExternalLink className="ml-2 h-3 w-3" />
-                              </a>
-                            </Button>
-                          )}
-                          {project.links.demo && (
+                        <div className="mt-4 flex flex-wrap gap-2 items-center">
+                          {"demo" in project.links && project.links.demo && (
                             <Button variant="outline" size="sm" asChild>
                               <a
                                 href={project.links.demo}
@@ -511,31 +537,26 @@ export default function Home() {
                               </a>
                             </Button>
                           )}
-                          {project.links.appStore && (
-                            <Button variant="outline" size="sm" asChild>
-                              <a
-                                href={project.links.appStore}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                App Store
-                                <ExternalLink className="ml-2 h-3 w-3" />
-                              </a>
-                            </Button>
-                          )}
-                          {project.links.playStore && (
-                            <Button variant="outline" size="sm" asChild>
-                              <a
-                                href={project.links.playStore}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                Google Play
-                                <ExternalLink className="ml-2 h-3 w-3" />
-                              </a>
-                            </Button>
+                          {"comingSoon" in project && project.comingSoon && (
+                            <Badge variant="secondary">近日リリース予定</Badge>
                           )}
                         </div>
+                        {/* サンプルアカウント情報 */}
+                        {"demoAccounts" in project && project.demoAccounts && (
+                          <div className="mt-4 p-3 rounded-lg bg-muted/50 text-sm">
+                            <p className="font-medium mb-2">Demo Account</p>
+                            <p className="text-muted-foreground">
+                              Tenant ID: <code className="bg-muted px-1 rounded">{project.demoAccounts.tenantId}</code>
+                            </p>
+                            <div className="mt-2 space-y-1">
+                              {project.demoAccounts.accounts.map((account, idx) => (
+                                <p key={idx} className="text-muted-foreground">
+                                  {account.role}: <code className="bg-muted px-1 rounded">{account.email}</code> / <code className="bg-muted px-1 rounded">{account.password}</code>
+                                </p>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </CardHeader>
@@ -663,7 +684,35 @@ export default function Home() {
                           </div>
                         </div>
                       )}
+
+                      {/* Development */}
+                      {"development" in project && project.development && (
+                        <div>
+                          <h4 className="mb-3 flex items-center gap-2 font-semibold">
+                            <Code2 className="h-4 w-4" />
+                            {project.development.title}
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {project.development.techs.map((tech) => (
+                              <Badge key={tech} variant="outline">
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
+
+                    {/* Sample Images Slider */}
+                    {"sampleImages" in project && project.sampleImages && (
+                      <div className="mt-6">
+                        <h4 className="mb-4 font-semibold">Screenshots</h4>
+                        <ImageSlider
+                          images={project.sampleImages}
+                          alt={project.title}
+                        />
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               );
@@ -731,17 +780,6 @@ export default function Home() {
                 お仕事のご依頼やご質問がございましたら、お気軽にご連絡ください。
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button variant="outline" asChild>
-                  <a
-                    href="https://github.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="mr-2 h-4 w-4" />
-                    GitHub
-                    <ExternalLink className="ml-2 h-3 w-3" />
-                  </a>
-                </Button>
                 <Button variant="outline" asChild>
                   <a href="mailto:example@example.com">
                     <Mail className="mr-2 h-4 w-4" />
