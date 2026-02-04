@@ -24,6 +24,8 @@ import {
   Target,
   Lightbulb,
   GraduationCap,
+  Palette,
+  Bot,
 } from "lucide-react";
 
 const profile = {
@@ -57,6 +59,62 @@ const futureGoals = {
 const projects = [
   {
     id: 1,
+    title: "Discord Bots",
+    description:
+      "コミュニティ運営をサポートするDiscord Bot群。24時間音楽再生とポモドーロタイマー機能を備えたBot、メッセージをブックマークして後から参照できるBotを開発。エンジニアを志すきっかけとなったプロジェクトです。",
+    icon: Bot,
+    links: {
+      githubRepos: [
+        { name: "Music Bot", url: "https://github.com/kanigyoza/musicbot" },
+        { name: "Bookmark Bot", url: "https://github.com/kanigyoza/bookmark" },
+      ],
+    },
+    features: [
+      "24時間音楽再生（YouTube対応）",
+      "ポモドーロタイマー機能（作業・休憩の自動通知）",
+      "メッセージブックマーク機能（DMに保存）",
+      "スラッシュコマンド対応",
+    ],
+    challenges: [
+      {
+        problem: "24時間稼働の実現",
+        solution:
+          "Renderの無料枠を活用し、常時稼働を実現。接続切れ対策やエラーハンドリングを実装して安定稼働を確保。",
+      },
+      {
+        problem: "音楽再生の安定性",
+        solution:
+          "discord.jsのVoice機能を活用し、再生キューの管理や自動再接続機能を実装。長時間再生でも途切れない設計に。",
+      },
+    ],
+    learnings: [
+      "discord.jsを使ったBot開発の基礎",
+      "非同期処理とイベント駆動プログラミング",
+      "外部APIとの連携（YouTube）",
+      "クラウドサービス（Render）でのデプロイ",
+    ],
+    frontend: {
+      title: "Tech Stack",
+      techs: [
+        "TypeScript",
+        "Node.js",
+        "discord.js",
+        "ytdl-core",
+      ],
+    },
+    infrastructure: {
+      title: "Infrastructure",
+      techs: [
+        "Render（無料枠）",
+      ],
+    },
+    development: {
+      title: "Development",
+      techs: ["AI駆動開発", "ChatGPT"],
+    },
+  },
+  {
+    id: 2,
     title: "ex/review",
     description:
       "日報ベースの学習管理を実現するマルチテナント対応のSaaSアプリケーション。学習者の日々の学習内容を記録し、進捗を可視化することで、効果的な学習支援を提供します。",
@@ -100,7 +158,7 @@ const projects = [
       {
         problem: "インフラコストの最適化",
         solution:
-          "ECS Fargateのスポットインスタンス活用、RDSのリザーブドインスタンス検討、CloudWatchでリソース使用状況を監視し、適切なスケーリング設定でコストを削減。",
+          "AWS Cost Explorerでコストを可視化・監視し、不要なリソースの削減や適切なインスタンスサイズの選定を実施。無駄のないインフラ構成でコストを最適化。",
       },
       {
         problem: "キャッシュ設計によるパフォーマンス向上",
@@ -176,7 +234,7 @@ const projects = [
     },
   },
   {
-    id: 2,
+    id: 3,
     title: "ex/only - 支出家計簿",
     description:
       "支出管理に特化したシンプルな家計簿アプリ。収入や複雑な機能は一切省き、「出費を記録する」ことだけに集中。直感的な操作で日々の支出をサッと記録し、カテゴリ別のグラフで支出傾向を一目で把握できます。",
@@ -281,13 +339,18 @@ const skills = {
     "Git",
     "GitHub",
     "Claude Code",
+    "Xcode",
     "Stripe",
     "Sentry",
     "Gemini AI",
     "Resend",
     "RevenueCat",
     "ML Kit",
+  ],
+  creative: [
+    "CLIP STUDIO PAINT",
     "Affinity Designer 2",
+    "Icon Composer",
   ],
 };
 
@@ -492,6 +555,23 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Palette className="h-5 w-5 text-primary" />
+                  Creative
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {skills.creative.map((skill) => (
+                    <Badge key={skill} variant="secondary">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
@@ -525,6 +605,20 @@ export default function Home() {
                         </CardDescription>
                         {/* プロジェクトリンク */}
                         <div className="mt-4 flex flex-wrap gap-2 items-center">
+                          {"githubRepos" in project.links && project.links.githubRepos && (
+                            project.links.githubRepos.map((repo, idx) => (
+                              <Button key={idx} variant="outline" size="sm" asChild>
+                                <a
+                                  href={repo.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <ExternalLink className="mr-2 h-4 w-4" />
+                                  {repo.name}
+                                </a>
+                              </Button>
+                            ))
+                          )}
                           {"demo" in project.links && project.links.demo && (
                             <Button variant="outline" size="sm" asChild>
                               <a
@@ -781,7 +875,7 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button variant="outline" asChild>
-                  <a href="mailto:example@example.com">
+                  <a href="mailto:kanigyoza0717@gmail.com">
                     <Mail className="mr-2 h-4 w-4" />
                     Email
                   </a>
@@ -796,7 +890,7 @@ export default function Home() {
       <footer className="border-t py-8">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Portfolio. All rights reserved.
+            &copy; {new Date().getFullYear()} kanigyoza. All rights reserved.
           </p>
         </div>
       </footer>
